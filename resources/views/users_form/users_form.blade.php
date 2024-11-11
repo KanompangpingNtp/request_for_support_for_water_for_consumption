@@ -33,7 +33,12 @@
                <div class="row">
                 <div class="mb-3 col-md-2">
                     <label for="guest_salutation" class="form-label">คำนำหน้า</label>
-                    <input type="text" class="form-control" id="guest_salutation" name="guest_salutation">
+                    <select class="form-select" id="guest_salutation" name="guest_salutation">
+                        <option value="" selected disabled>เลือกคำนำหน้า</option>
+                        <option value="นาย">นาย</option>
+                        <option value="นาง">นาง</option>
+                        <option value="นางสาว">นางสาว</option>
+                    </select>
                 </div>
                 <div class="mb-3 col-md-4">
                     <label for="guest_name" class="form-label">ชื่อ</label>

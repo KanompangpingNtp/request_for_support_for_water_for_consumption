@@ -39,7 +39,7 @@
             font-size: 18px;
             margin-left: 80px;
             margin-right: 20px;
-            line-height: 14px;
+            line-height: 8px;
         }
 
         h3 {
@@ -129,8 +129,8 @@
 
         span.fullname_2 {
             border-bottom: 1px dashed;
-            padding-left: 10px;
-            padding-right: 300px;
+            padding-left: 30px;
+            padding-right: 30px;
             color: blue;
         }
 
@@ -151,14 +151,22 @@
         span.house_no {
             border-bottom: 1px dashed;
             padding-left: 10px;
-            padding-right: 60px;
+            padding-right: 20px;
             color: blue;
         }
+
+        span.house_no_1 {
+            border-bottom: 1px dashed;
+            padding-left: 10px;
+            padding-right: 150px;
+            color: blue;
+        }
+
 
         span.village_no {
             border-bottom: 1px dashed;
             padding-left: 10px;
-            padding-right: 50px;
+            padding-right: 10px;
             color: blue;
         }
 
@@ -179,14 +187,14 @@
         span.sub_district {
             border-bottom: 1px dashed;
             padding-left: 10px;
-            padding-right: 50px;
+            padding-right: 10px;
             color: blue;
         }
 
         span.district {
             border-bottom: 1px dashed;
             padding-left: 10px;
-            padding-right: 100px;
+            padding-right: 20px;
             color: blue;
         }
 
@@ -200,14 +208,14 @@
         span.phone {
             border-bottom: 1px dashed;
             padding-left: 10px;
-            padding-right: 50px;
+            padding-right: 100px;
             color: blue;
         }
 
         span.submission {
             border-bottom: 1px dashed;
             padding-left: 10px;
-            padding-right: 100px;
+            padding-right: 20px;
             color: blue;
             overflow-wrap: break-word;
         }
@@ -249,8 +257,8 @@
 
         span.submission_name {
             border-bottom: 1px dashed;
-            padding-left: 5px;
-            padding-right: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
             color: blue;
         }
 
@@ -275,7 +283,7 @@
             color: blue;
         }
 
-        span.fullname_3{
+        span.fullname_3 {
             border-bottom: 1px dashed;
             padding-left: 40px;
             padding-right: 40px;
@@ -310,6 +318,20 @@
     $year = $date->year + 543; // เพิ่ม 543 เพื่อให้เป็นปี พ.ศ.
     @endphp
 
+    @php
+    // กำหนดชื่อเดือนในภาษาไทย
+    $thaiMonths = [
+    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+    ];
+
+    // แปลง start_date เป็นวัน เดือน ปี ภาษาไทย
+    $startDate = Carbon::parse($form->start_date);
+    $startDay = $startDate->format('d'); // วันที่
+    $startMonth = $thaiMonths[$startDate->month - 1]; // เดือน
+    $startYear = $startDate->year + 543; // ปี พุทธศักราช (เพิ่ม 543 ปี)
+    @endphp
+
     <div class="container">
         <br>
         <br>
@@ -317,29 +339,74 @@
         <p class="right">เขียนที่ <span class="location">{{ $form->guest_location }}</span> </p>
         <p class="right">วันที่<span class="day">{{ $day }}</span>เดือน<span class="month">{{ $month }}</span>พ.ศ.<span class="year"> {{ $year }}</span></p>
 
-        {{-- <p style="margin-left: 55px;">ข้าพเจ้า<span class="fullname">{{ $form->guest_salutation }}&nbsp;{{ $form->guest_name }}</span> อายุ <span class="age">{{ $form->guest_age }}</span>ปี</p>
-        <p>สัญชาติ<span class="nationality">{{ $form->guest_nationality }}</span>เชื้อชาติ<span class="nationality">{{ $form->guest_ethnicity }}</span>อยู่บ้านเลขที่<span class="house_no">{{ $form->guest_house_number }}</span>หมู่ที่<span class="village_no">{{ $form->guest_village }}</span></p>
-        <p>ถนน<span class="road">{{ $form->guest_road }}</span>ตรอก/ซอย<span class="sub_district">{{ $form->guest_alley }}</span>แขวง/ตำบล<span class="sub_district">{{ $form->guest_subdistrict }}</span></p>
-        <p>อำเภอ<span class="district">{{ $form->guest_district }}</span>จังหวัด<span class="province">{{ $form->guest_province }}</span>รหัสไปรษณีย์<span class="phone">{{ $form->guest_zipcode }}</span></p>
-        <p>ขอยื่นคำร้องต่อพนักงานเจ้าหน้าที่</p>
+        <p>เรื่อง ขอรับการสนับสนุนน้ำอุปโภค - บริโภค</p>
+        <p>เรียน นายกองค์การบริหารส่วนตำบลทัพริก</p>
 
-        <p style="margin-left: 55px;">ตามที่ข้าพเจ้าได้ติดตั้งป้ายชื่อ<span class="fullname_2">{{ $form->formDetailLocation->detail_location_name_tag }}</span></p>
-        <p>ซึ่งอยู่ตำแหน่งที่<span class="house_no">{{ $form->formDetailLocation->detail_location_house_number }}</span>หมู่ที่<span class="village_no">{{ $form->formDetailLocation->detail_location_village }}</span>ถนน<span class="road">{{ $form->formDetailLocation->detail_location_road }}</span></p>
-        <p>ตรอก/ซอย<span class="sub_district">{{ $form->formDetailLocation->detail_location_alley }}</span>แขวง/ตำบล<span class="sub_district">{{ $form->formDetailLocation->detail_location_subdistrict }}</span>อำเภอ<span class="district">{{ $form->formDetailLocation->detail_location_district }}</span></p>
-        <p>จังหวัด<span class="province">{{ $form->formDetailLocation->detail_location_province }}</span>รหัสไปรษณีย์<span class="phone">{{ $form->formDetailLocation->detail_location_phone_number }}</span></p>
-        <p>ได้เคยยื่นแบบแสดงรายการและเสียภาษีป้ายครั้งสุดท้ายประจำปี<span class="detail_form_lastday">{{ $form->formDetail->detail_form_lastday }}</span></p>
-        <p>ไว้ด้วยขนาดป้าย<span class="detail_tax_size">{{ $form->formDetail->detail_tax_size }}</span></p>
-        <p>ด้วยสาเหตุ<span class="detail_tax_size">{{ $form->formDetail->detail_cause }}</span></p>
-        <p>ตั้งแต่วันที่<span class="detail_tax_size">{{ $form->formDetail->detail_since_the_date }}</span></p>
+        <p style="margin-left: 55px;">ด้วยข้าพเจ้า<span class="fullname">{{ $form->guest_salutation }}&nbsp;{{ $form->guest_name }}</span> อายุ <span class="age">{{ $form->guest_age }}</span>ปี</p>
+        <p>อยู่บ้านเลขที่<span class="house_no">{{ $form->guest_house_number }}</span>หมู่ที่<span class="village_no">{{ $form->guest_village }}</span>ตำบล<span class="sub_district">{{ $form->guest_subdistrict }}</span>อำเภอ<span class="district">{{ $form->guest_district }}</span>จังหวัดสระแก้ว</p>
+        <p>เบอร์โทรศัพท์ที่สามารถติดต่อได้<span class="phone">{{ $form->guest_phone }}</span>มีความประสงค์ขอรับการสนับสนุนน้ำ</p>
+        <p>
+            @if(in_array('utilities', explode(',', $form->formDetails->first()->detail_type)))
+            <input type="checkbox" checked disabled> อุปโภค
+            @else
+            <input type="checkbox" disabled> อุปโภค
+            @endif
 
-        <p style="margin-left: 55px;">จึงเรียนมาเพื่อพิจารณาดำเนินการต่อไป</p>
+            @if(in_array('consume', explode(',', $form->formDetails->first()->detail_type)))
+            <input type="checkbox" checked disabled> บริโภค
+            @else
+            <input type="checkbox" disabled> บริโภค
+            @endif
+
+            เพื่อ<span class="submission">{{ $form->formDetails->first()->detail_use_water_to }}</span>จำนวน<span class="submission_name">{{ $form->formDetails->first()->capacity }}</span>ลิตร
+        </p>
+        <p>โดยให้ทางองค์การบริหารส่วนตำบลทับพริกนำส่งน้ำในวันที่<span class="day">{{ $startDay  }}</span>เดือน<span class="month">{{ $startMonth  }}</span>พ.ศ.<span class="year"> {{ $startYear  }}</span></p>
+        <p>ณ<span class="house_no_1">{{ $form->formDetails->first()->detail_location }}</span>หมู่ที่<span class="village_no">{{ $form->formDetails->first()->detail_village }}</span>ตำบล<span class="sub_district">{{ $form->formDetails->first()->detail_subdistrict }}</span></p>
+        <p>อำเภอ<span class="district">{{ $form->formDetails->first()->detail_district }}</span>จังหวัด<span class="district">{{ $form->formDetails->first()->detail_province }}</span></p>
+
+        <p style="margin-left: 55px;">จึงเรียนเพื่อโปรดทราบและพิจารณาดำเนินการต่อไป</p>
 
         <div style="text-align: center;">
-            <p>ขอแสดงความนับถือ</p><br>
-            <p>(ลงชื่อ) <span class="fullname_3">{{ $form->guest_name }}</span>ผู้ยื่น</p>
-            <p>(<span class="fullname_3">{{ $form->guest_salutation }}&nbsp;{{ $form->guest_name }}</span>)</p>
-        </div> --}}
+            <p>(ลงชื่อ)<span class="fullname_2">{{ $form->guest_salutation }}&nbsp;{{ $form->guest_name }}</span>ผู้ยื่นคำร้อง <br> </p>
+            <p>(<span class="fullname_2">{{ $form->guest_name }}</span>)</p>
+            <p>ตำแหน่ง.......................................................</p>
+            <p style="margin-top: 30px">(ลงชื่อ).........................................................</p>
+            <p>(นายวรนารท สุททิชื่น)</p>
+            <p>ตำแหน่ง เจ้าหน้าที่งานป้องกันและบรรเทาสาธารณภัยปฏิบัติงาน</p>
+        </div>
 
+        <table style="width: 100%; margin-top: 10px;">
+            <tr>
+                <!-- คอลัมน์ซ้าย -->
+                <td style="width: 50%; vertical-align: top;">
+                    <p>เรียน ปลัดองค์การบริหารส่วนตำบลทับพริก</p>
+                    <p><input type="checkbox"> เห็นควรอนุญาต <br> <input type="checkbox"> ไม่เห็นควรอนุญาต............................ </p>
+
+                    <div style="text-align: center;">
+                        <p>(นายชัยยง ศรีกะชา)</p>
+                        <p>หัวหน้าสำนักปลัด</p>
+                    </div>
+                </td>
+
+                <!-- คอลัมน์ขวา -->
+                <td style="width: 50%; vertical-align: top;">
+                    <p>เรียน ปลัดองค์การบริหารส่วนตำบลทับพริก</p>
+                    <p><input type="checkbox"> เห็นควรอนุญาต <br> <input type="checkbox"> ไม่เห็นควรอนุญาต............................ </p>
+
+                    <div style="text-align: center;">
+                        <p>(นางภัทรวดี ธนะโรจชูเดช)</p>
+                        <p>ปลัดองค์การบริหารส่วนตำบลทับพริก</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>ความเห็นนายกองค์การบริหารส่วนตำบลทับพริก</p>
+        <div style="text-align: center;">
+            <p><input type="checkbox"> อนุญาต <input type="checkbox" style="margin-left: 100px;"> ไม่เห็นควรอนุญาต............................ </p>
+            <p>(นางรัตนากร พุฒเส็ง)</p>
+            <p>นายกองค์การบริหารส่วนตำบลทับพริก</p>
+        </div>
     </div>
 </body>
 
